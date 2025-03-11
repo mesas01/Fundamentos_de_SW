@@ -1,0 +1,40 @@
+digraph BPMN_Transferencia_Bancaria {
+    rankdir=TB;
+    graph [splines=polyline, nodesep=1, ranksep=1.5];
+
+    // Estilos generales
+    node [shape=oval, style=filled, fillcolor=lightgreen];
+    Inicio [label="Inicio de Transferencia"];
+
+    // Pasos del proceso
+    node [shape=rectangle, style=filled, fillcolor=lightblue];
+    IngresarDatos [label="Ingresar Datos del Destinatario y Monto"];
+    VerificarSaldo [label="Verificar Disponibilidad de Fondos"];
+    ConfirmarTransaccion [label="Confirmar Transferencia"];
+    ProcesarTransferencia [label="Procesar Transferencia"];
+    GenerarComprobante [label="Generar Comprobante"];
+
+    // Decisiones
+    node [shape=diamond, style=filled, fillcolor=lightyellow];
+    DecisionSaldo [label="¿Saldo Suficiente?"];
+
+    node [shape=rectangle, style=filled, fillcolor=lightblue];
+    ErrorSaldo [label="Error: Saldo Insuficiente"];
+
+    node [shape=oval, style=filled, fillcolor=red];
+    Fin [label="Fin del Proceso"];
+
+    // Flujo del proceso
+    Inicio -> IngresarDatos [xlabel="Ingresar Información"];
+    IngresarDatos -> VerificarSaldo;
+    
+    VerificarSaldo -> DecisionSaldo;
+    DecisionSaldo -> ConfirmarTransaccion [xlabel="Sí"];
+    DecisionSaldo -> ErrorSaldo [xlabel="No, Mostrar Error"];
+
+    ErrorSaldo -> IngresarDatos [xlabel="Reintentar"];
+
+    ConfirmarTransaccion -> ProcesarTransferencia;
+    ProcesarTransferencia -> GenerarComprobante;
+    GenerarComprobante -> Fin;
+}
