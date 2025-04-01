@@ -1,0 +1,62 @@
+@startuml VistaLogicaSistema
+
+package "main" {
+  class Main
+}
+
+package "view" {
+  class LoginView
+  class DashboardView
+}
+
+package "controller" {
+  class LoginController
+  class CuentaController
+}
+
+package "model" {
+  class Usuario
+  class Cuenta
+  class Prestamo
+  class Transaccion
+}
+
+package "dao" {
+  interface UsuarioDAO
+  class UsuarioDAOImpl
+  interface CuentaDAO
+  class CuentaDAOImpl
+}
+
+package "util" {
+  class DBConnection
+  class ValidadorCorreo
+  class Encriptador
+}
+
+package "resources" {
+  class FXML
+  class CSS
+  class Imagenes
+}
+
+note right of Imagenes
+  Archivos FXML, CSS, imágenes de interfaz
+end note
+
+' Relaciones entre paquetes
+Main --> LoginView : lanza interfaz
+LoginView --> LoginController : eventos de UI
+LoginController --> Usuario : valida login
+CuentaController --> Cuenta
+CuentaController --> CuentaDAO
+
+UsuarioDAOImpl ..|> UsuarioDAO
+CuentaDAOImpl ..|> CuentaDAO
+
+UsuarioDAOImpl --> DBConnection
+CuentaDAOImpl --> DBConnection
+
+DBConnection --> "H2 Database"
+
+@enduml
