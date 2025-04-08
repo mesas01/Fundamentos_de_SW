@@ -1,0 +1,53 @@
+digraph BPMN_Gestion_Cuentas {
+    rankdir=TB;
+    graph [splines=polyline, nodesep=1, ranksep=1.5];
+
+    // Estilos generales
+    node [shape=oval, style=filled, fillcolor=lightgreen];
+    Inicio [label="Inicio de Gestión de Cuentas"];
+
+    // Pasos del proceso
+    node [shape=rectangle, style=filled, fillcolor=lightblue];
+    SeleccionarAccion [label="Seleccionar Acción: \n 1. Abrir Cuenta \n 2. Consultar Saldo \n 3. Cerrar Cuenta"];
+    AbrirCuenta [label="Abrir Nueva Cuenta"];
+    IngresarDatosCuenta [label="Ingresar Datos de la Cuenta"];
+    ConsultarSaldo [label="Consultar Saldo"];
+    CerrarCuenta [label="Cerrar Cuenta"];
+    VerificarSaldo [label="Verificar Saldo y Deudas"];
+    ConfirmarCierre [label="Confirmar Cierre de Cuenta"];
+
+    // Decisiones
+    node [shape=diamond, style=filled, fillcolor=lightyellow];
+    DecisionAccion [label="¿Qué acción desea realizar?"];
+    DecisionCierre [label="¿Saldo y Deudas Pendientes?"];
+
+    node [shape=rectangle, style=filled, fillcolor=lightblue];
+    ErrorSaldo [label="Error: Saldo o Deuda Pendiente"];
+
+    node [shape=oval, style=filled, fillcolor=red];
+    Fin [label="Fin del Proceso"];
+
+    // Flujo del proceso
+    Inicio -> SeleccionarAccion;
+    SeleccionarAccion -> DecisionAccion;
+
+    // Opción: Abrir Cuenta
+    DecisionAccion -> AbrirCuenta [xlabel="Abrir Cuenta"];
+    AbrirCuenta -> IngresarDatosCuenta [xlabel="Ingresar Datos"];
+    IngresarDatosCuenta -> Fin [xlabel="Cuenta Creada"];
+
+    // Opción: Consultar Saldo
+    DecisionAccion -> ConsultarSaldo [xlabel="Consultar Saldo"];
+    ConsultarSaldo -> Fin [xlabel="Mostrar Saldo"];
+
+    // Opción: Cerrar Cuenta
+    DecisionAccion -> CerrarCuenta [xlabel="Cerrar Cuenta"];
+    CerrarCuenta -> VerificarSaldo;
+    VerificarSaldo -> DecisionCierre;
+
+    DecisionCierre -> ConfirmarCierre [xlabel="No, sin saldo ni deudas"];
+    DecisionCierre -> ErrorSaldo [xlabel="Sí, saldo pendiente"];
+
+    ErrorSaldo -> Fin [xlabel="Cierre Denegado"];
+    ConfirmarCierre -> Fin [xlabel="Cuenta Cerrada"];
+}
