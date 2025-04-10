@@ -1,4 +1,4 @@
-package main.java.com.javeriana.dao;
+package com.javeriana.bancosoft.dao;
 
 public class CuentaDAOImpl {
     

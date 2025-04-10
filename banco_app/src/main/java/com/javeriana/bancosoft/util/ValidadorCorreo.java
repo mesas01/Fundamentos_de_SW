@@ -1,4 +1,4 @@
-package main.java.com.javeriana.util;
+package com.javeriana.bancosoft.util;
 
 public class ValidadorCorreo {
     
